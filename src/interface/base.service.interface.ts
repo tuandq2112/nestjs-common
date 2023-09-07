@@ -6,7 +6,6 @@ import { PaginationDTO } from '../dto/pagination.dto';
 
 export interface BaseServiceInterface<
   Entity extends BaseEntity,
-  DTO extends BaseDTO,
 > {
   create(entity: any): Promise<Entity>;
   /**
@@ -19,8 +18,9 @@ export interface BaseServiceInterface<
 
   getDetail(id: any): Promise<Entity>;
 
-  search(pagination: Pageable): Promise<PaginationDTO<Entity>>;
-  update(id: ObjectId, entity: Entity): Promise<Entity>;
+  search(pagination: Pageable): Promise<PaginationDTO>;
+  
+  update(id: ObjectId, entity: any): Promise<Entity>;
 
   delete(id: ObjectId): Promise<DeleteResult>;
 }

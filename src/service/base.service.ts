@@ -1,14 +1,11 @@
 import { DeleteResult } from 'typeorm';
 import { BaseEntity } from '../dao/model/base.entity';
 import { BaseRepository } from '../dao/repository';
-import { BaseDTO } from '../dto/base.dto';
 import { PaginationDTO } from '../dto/pagination.dto';
 import { BaseServiceInterface } from '../interface/base.service.interface';
 import { PaginationHelper } from '../utils/paginate.helper';
-export abstract class BaseService<
-  Entity extends BaseEntity,
-  DTO extends BaseDTO,
-> implements BaseServiceInterface<Entity, DTO>
+export abstract class BaseService<Entity extends BaseEntity>
+  implements BaseServiceInterface<Entity>
 {
   constructor(private readonly repository: BaseRepository<Entity>) {}
   /**
@@ -40,8 +37,6 @@ export abstract class BaseService<
       this.repository
         .save(entities)
         .then((res) => {
-          console.log(res);
-
           resolve(res);
         })
         .catch((err) => {
@@ -55,8 +50,6 @@ export abstract class BaseService<
       this.repository
         .findOneOrFail(id)
         .then((res) => {
-          console.log(res);
-
           resolve(res);
         })
         .catch((err) => {
@@ -65,14 +58,12 @@ export abstract class BaseService<
     });
   }
 
-  public async search(query: any): Promise<PaginationDTO<Entity>> {
-    return new Promise<PaginationDTO<Entity>>((resolve, reject) => {
+  public async search(query: any): Promise<PaginationDTO> {
+    return new Promise<PaginationDTO>((resolve, reject) => {
       const paginateHelper = new PaginationHelper<Entity>(this.repository);
       paginateHelper
         .paginate(query)
         .then((pagination) => {
-          console.log(pagination);
-
           resolve(pagination);
         })
         .catch((err) => {
@@ -81,7 +72,7 @@ export abstract class BaseService<
     });
   }
 
-  public async update(id: any, entity: Entity): Promise<Entity> {
+  public async update(id: any, entity: any): Promise<Entity> {
     return new Promise((resolve, reject) => {
       this.getDetail(id)
         .then((existEntity) => {
@@ -89,8 +80,6 @@ export abstract class BaseService<
           return this.repository.save(existEntity);
         })
         .then((res) => {
-          console.log(res);
-
           resolve(res);
         })
         .catch((err) => {
@@ -104,8 +93,6 @@ export abstract class BaseService<
       this.repository
         .delete(id)
         .then((result) => {
-          console.log(result);
-
           resolve(result);
         })
         .catch((err) => {

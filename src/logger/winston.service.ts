@@ -16,9 +16,8 @@ export class WinstonServiceConfig implements WinstonModuleOptionsFactory {
     private readonly fileService: FileService,
   ) {}
   async createWinstonModuleOptions(): Promise<WinstonModuleOptions> {
-    const fileConfig = this.configService.get<any>('file');
+    const logDir = this.configService.get<string>('LOG_DIR');
 
-    const logDir = fileConfig.winstonDir;
     const isExistLogFolder: boolean = await this.fileService.isExist(logDir);
     if (isExistLogFolder) {
       this.fileService.mkdir(logDir);
@@ -33,7 +32,11 @@ export class WinstonServiceConfig implements WinstonModuleOptionsFactory {
           ({ timestamp, level, message }) =>
             `${timestamp} ${level}: ${message}`,
         ),
-        format.colorize(), // Add colorization to logs
+        format.colorize({
+          all: true,
+          message: true,
+          level: true,
+        }),
       ),
 
       transports: [

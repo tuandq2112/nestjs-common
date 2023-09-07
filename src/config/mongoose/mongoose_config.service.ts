@@ -15,25 +15,33 @@ import {
 
 class MongoConfigVariables {
   @IsIP()
-  mongoHost: string;
+  host: string;
   @IsNumber()
-  mongoPort: number;
+  port: number;
   @IsOptional()
-  mongoUser: string;
+  user: string;
   @IsOptional()
-  mongoPass: string;
+  pass: string;
   @IsString()
-  mongoDatabase: string;
+  database: string;
 }
 @Injectable()
 export class MongooseConfigService implements MongooseOptionsFactory {
   constructor(private configService: ConfigService) {}
   createMongooseOptions(): MongooseModuleOptions {
-    const mongoConfig = this.configService.get<MongoConfigVariables>('mongo');
+    const host = this.configService.get<string>('MONGO_HOST');
+    const port = this.configService.get<string>('MONGO_PORT');
+    const user = this.configService.get<string>('MONGO_USER');
+    const pass = this.configService.get<string>('MONGO_PASS');
+    const database = this.configService.get<string>('MONGO_DATABASE');
 
-    const validatedConfig = plainToInstance(MongoConfigVariables, mongoConfig, {
-      enableImplicitConversion: true,
-    });
+    const validatedConfig = plainToInstance(
+      MongoConfigVariables,
+      { host, port, user, pass, database },
+      {
+        enableImplicitConversion: true,
+      },
+    );
     const errors = validateSync(validatedConfig, {
       skipMissingProperties: false,
     });
@@ -43,9 +51,9 @@ export class MongooseConfigService implements MongooseOptionsFactory {
     }
 
     return {
-      uri: `mongodb://${mongoConfig.mongoHost}/${mongoConfig.mongoPort}/${mongoConfig.mongoDatabase}`,
-      user: mongoConfig.mongoUser,
-      pass: mongoConfig.mongoPass,
+      uri: `mongodb://${host}/${port}/${database}`,
+      user: user,
+      pass: pass,
     };
   }
 }

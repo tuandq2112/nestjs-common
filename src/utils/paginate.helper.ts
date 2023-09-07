@@ -5,11 +5,9 @@ import { PaginationDTO } from '../dto/pagination.dto';
 export class PaginationHelper<Entity extends BaseEntity> {
   constructor(private readonly repository: BaseRepository<Entity>) {}
 
-  async paginate(
-    query: any = { page: 0, size: 10 },
-  ): Promise<PaginationDTO<Entity>> {
-    return new Promise<PaginationDTO<Entity>>((resolve, reject) => {
-      const { page, size } = query;
+  async paginate(query: any = { page: 0, size: 10 }): Promise<PaginationDTO> {
+    return new Promise<PaginationDTO>((resolve, reject) => {
+      const { page = 0, size = 10 } = query;
       const skip = page * size;
 
       this.repository
@@ -34,5 +32,13 @@ export class PaginationHelper<Entity extends BaseEntity> {
           reject(error);
         });
     });
+  }
+  public static isPaginationDTO(obj: any): boolean {
+    return (
+      'totalPages' in obj &&
+      'pageNumber' in obj &&
+      'pageSize' in obj &&
+      'numberOfElements' in obj
+    );
   }
 }

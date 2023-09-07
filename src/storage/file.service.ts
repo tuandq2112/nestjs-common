@@ -10,8 +10,8 @@ export class FileService {
   public fileLocation: string;
   constructor(private readonly configService: ConfigService) {
     this.rootLocation = process.cwd();
-    const fileConfig = this.configService.get('file');
-    this.fileLocation = fileConfig.fileDir;
+    const fileRootDir = this.configService.get<string>('FILE_ROOT_DIR');
+    this.fileLocation = fileRootDir;
     this.mkdir(this.fileLocation);
   }
 

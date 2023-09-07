@@ -12,3 +12,4 @@ export * from './logger';
 export * from './middleware';
 export * from './storage';
 export * from './validator';
+export * from './guards';

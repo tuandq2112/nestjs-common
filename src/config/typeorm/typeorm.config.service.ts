@@ -13,28 +13,31 @@ import {
 export type RequiredDatabaseType = 'mongodb' | 'mysql' | 'postgres';
 class TypeOrmConfigVariables {
   @IsIn(['mongodb', 'mysql', 'postgres'])
-  typeOrmDatabaseType: RequiredDatabaseType;
+  type: RequiredDatabaseType;
   @IsIP()
-  typeOrmHost: string;
+  host: string;
   @IsNumber()
-  typeOrmPort: number;
+  port: number;
   @IsOptional()
-  typeOrmUsername: string;
+  username: string;
   @IsOptional()
-  typeOrmPassword: string;
+  password: string;
   @IsString()
-  typeOrmDatabase: string;
+  database: string;
 }
 @Injectable()
 export class TypeOrmConfigService implements TypeOrmOptionsFactory {
   constructor(private configService: ConfigService) {}
   createTypeOrmOptions(): TypeOrmModuleOptions {
-    const typeOrmConfig =
-      this.configService.get<TypeOrmConfigVariables>('typeOrm');
-
+    const type = this.configService.get<RequiredDatabaseType>('DATABASE_TYPE');
+    const host = this.configService.get<string>('DATABASE_HOST');
+    const port = this.configService.get<number>('DATABASE_PORT');
+    const username = this.configService.get<string>('DATABASE_USERNAME');
+    const password = this.configService.get<string>('DATABASE_PASSWORD');
+    const database = this.configService.get<string>('DATABASE_NAME');
     const validatedConfig = plainToInstance(
       TypeOrmConfigVariables,
-      typeOrmConfig,
+      { type, host, port, username, password, database },
       {
         enableImplicitConversion: true,
       },
@@ -47,12 +50,12 @@ export class TypeOrmConfigService implements TypeOrmOptionsFactory {
       throw new Error(errors.toString());
     }
     return {
-      type: typeOrmConfig.typeOrmDatabaseType,
-      host: typeOrmConfig.typeOrmHost,
-      port: typeOrmConfig.typeOrmPort,
-      username: typeOrmConfig.typeOrmUsername,
-      password: typeOrmConfig.typeOrmPassword,
-      database: typeOrmConfig.typeOrmDatabase,
+      type,
+      host,
+      port,
+      username,
+      password,
+      database,
       autoLoadEntities: true,
       synchronize: true,
     };

@@ -1,7 +1,6 @@
-import { BaseEntity } from '../dao/model/base.entity';
 
-export class PaginationDTO<Entity extends BaseEntity> {
-  data?: Entity[];
+export class PaginationDTO {
+  data?: any;
   totalPages: number;
   pageNumber: number;
   pageSize: number;
