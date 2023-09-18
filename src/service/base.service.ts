@@ -3,11 +3,11 @@ import { BaseEntity } from '../dao/model/base.entity';
 import { BaseRepository } from '../dao/repository';
 import { PaginationDTO } from '../dto/pagination.dto';
 import { BaseServiceInterface } from '../interface/base.service.interface';
-import { PaginationHelper } from '../utils/paginate.helper';
+import { PaginationHelper } from '../utils/paginate_helper.utils';
 export abstract class BaseService<Entity extends BaseEntity>
   implements BaseServiceInterface<Entity>
 {
-  constructor(private readonly repository: BaseRepository<Entity>) {}
+  constructor(protected readonly repository: BaseRepository<Entity>) {}
   /**
    *
    * @param entity the entity

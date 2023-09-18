@@ -5,7 +5,7 @@ import { PaginationDTO } from '../dto/pagination.dto';
 export class PaginationHelper<Entity extends BaseEntity> {
   constructor(private readonly repository: BaseRepository<Entity>) {}
 
-  async paginate(query: any = { page: 0, size: 10 }): Promise<PaginationDTO> {
+  async paginate(query: any): Promise<PaginationDTO> {
     return new Promise<PaginationDTO>((resolve, reject) => {
       const { page = 0, size = 10 } = query;
       const skip = page * size;

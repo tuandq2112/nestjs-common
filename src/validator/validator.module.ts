@@ -5,7 +5,9 @@ import { APP_PIPE } from '@nestjs/core';
   providers: [
     {
       provide: APP_PIPE,
-      useClass: ValidationPipe,
+      useValue: new ValidationPipe({
+        transform: true, // Enable class transformation
+      }),
     },
   ],
 })

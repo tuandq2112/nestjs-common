@@ -1,12 +1,12 @@
 export class BaseException extends Error {
-  code: number;
-  message: string;
-  data?: any;
-
-  constructor(code: number, message: string, data: Object) {
-    super(message);
-    this.code = code;
-    this.message = message;
-    this.data = data;
+  public code: number;
+  public data?: any;
+  public status: number = 200;
+  public message: any;
+  constructor(code_: number, message_: string, data_?: Object) {
+    super(message_);
+    this.code = code_;
+    this.data = data_;
+    this.message = message_;
   }
 }

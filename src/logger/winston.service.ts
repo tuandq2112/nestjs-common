@@ -24,7 +24,10 @@ export class WinstonServiceConfig implements WinstonModuleOptionsFactory {
     }
     const fileInfo: FileInfo = await this.fileService.getFileInfo(logDir);
     const logger = createLogger({
+      level: 'info',
+      handleExceptions: true,
       format: format.combine(
+        format.errors({ stack: true }),
         format.timestamp({
           format: 'YYYY-MM-DD HH:mm:ss',
         }),
@@ -32,13 +35,7 @@ export class WinstonServiceConfig implements WinstonModuleOptionsFactory {
           ({ timestamp, level, message }) =>
             `${timestamp} ${level}: ${message}`,
         ),
-        format.colorize({
-          all: true,
-          message: true,
-          level: true,
-        }),
       ),
-
       transports: [
         // debug log setting
         new transports.DailyRotateFile({

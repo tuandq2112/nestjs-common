@@ -6,4 +6,5 @@ export interface IMsgResponse<T> {
   pageNumber?: number;
   pageSize?: number;
   numberOfElements?: number;
+  status?: number;
 }
