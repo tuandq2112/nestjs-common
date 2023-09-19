@@ -1,5 +1,6 @@
 import Ajv from 'ajv';
 import { ethers } from 'ethers';
+import { EthersException } from '../exception/ethers.exception';
 
 const ajv = new Ajv();
 
@@ -85,22 +86,17 @@ export class SignatureUtils {
 
     const currentTimestamp = getCurrentTimestamp();
     if (currentTimestamp < messageJson.timestamp) {
-      throw Error(
-        `Timestamp in message exceed currentTimestamp ${messageJson.timestamp} vs ${currentTimestamp}`,
-      );
+      EthersException.ExceedTime(messageJson.timestamp, currentTimestamp);
     }
     if (currentTimestamp - messageJson.timestamp > interval) {
-      throw Error(`Exceeded time interval allow - interval :${interval}s`);
+      EthersException.ExceedTimeInterval(interval);
     }
     const address = ethers.utils.verifyMessage(
       authData.message,
       authData.signature,
     );
     if (address !== authData.address) {
-      throw Error(`
-          Difference between auth address and signature address :
-          ${messageJson.address} vs ${address}
-          `);
+      EthersException.AddressMismatch(address, authData.address);
     }
     return {
       valid: true,

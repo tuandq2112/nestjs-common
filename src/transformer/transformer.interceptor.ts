@@ -1,6 +1,7 @@
 import {
   CallHandler,
   ExecutionContext,
+  HttpStatus,
   Injectable,
   NestInterceptor,
 } from '@nestjs/common';
@@ -21,7 +22,7 @@ export class TransformationInterceptor<T>
       map((data) => {
         const response: IMsgResponse<T> = {
           data: data,
-          code: context.switchToHttp().getResponse().statusCode,
+          code: HttpStatus.OK,
           message: data.message || 'Success',
         };
 

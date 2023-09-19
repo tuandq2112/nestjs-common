@@ -9,7 +9,6 @@ export class JwtConfigService implements JwtOptionsFactory {
     private readonly fileService: FileService,
   ) {}
   async createJwtOptions(): Promise<JwtModuleOptions> {
-
     const publicKeyStone = this.configService.get<string>('PUBLIC_KEY_STORE');
     const privateKeyStone = this.configService.get<string>('PRIVATE_KEY_STORE');
     const duration = this.configService.get<string>('JWT_DURATION');
@@ -19,8 +18,8 @@ export class JwtConfigService implements JwtOptionsFactory {
 
     return {
       global: true,
-      privateKey,
       publicKey,
+      privateKey,
       signOptions: {
         algorithm: 'RS256',
         expiresIn: duration,

@@ -1,9 +1,22 @@
 {
   "name": "@ivirse/nestjs-common",
-  "private": true,
+  "private": false,
   "version": "1.0.0",
   "description": "Nest TypeScript common repository",
-  "license": "MIT",
+  "license": "ISC",
+  "author": {
+    "email": "doquoctuan311@gmail.com",
+    "name": "tuan.dq",
+    "url": "https://github.com/tuandq2112"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tuandq2112/my-test-package.git"
+  },
+  "bugs": {
+    "url": "https://github.com/tuandq2112/my-test-package/issues"
+  },
+  "homepage": "https://github.com/tuandq2112/my-test-package#readme",
   "scripts": {
     "build": "tsc",
     "clean": "rimraf lib",
@@ -24,6 +37,7 @@
     "@nestjs/mongoose": "^10.0.1",
     "@nestjs/passport": "^10.0.2",
     "@nestjs/platform-express": "^10.0.0",
+    "@nestjs/swagger": "^7.1.11",
     "@nestjs/typeorm": "^10.0.0",
     "ajv": "^8.12.0",
     "class-transformer": "^0.5.1",
@@ -37,6 +51,7 @@
     "randomstring": "^1.3.0",
     "rxjs": "^7.8.1",
     "source-map-support": "^0.5.21",
+    "swagger-ui-express": "^5.0.0",
     "typeorm": "^0.3.17",
     "winston": "^3.10.0",
     "winston-daily-rotate-file": "^4.7.1"
@@ -50,6 +65,7 @@
     "@nestjs/mongoose": "^10.0.1",
     "@nestjs/passport": "^10.0.2",
     "@nestjs/platform-express": "^10.0.0",
+    "@nestjs/swagger": "^7.1.11",
     "@nestjs/typeorm": "^10.0.0",
     "ajv": "^8.12.0",
     "class-transformer": "^0.5.1",
@@ -63,6 +79,7 @@
     "randomstring": "^1.3.0",
     "rxjs": "^7.8.1",
     "source-map-support": "^0.5.21",
+    "swagger-ui-express": "^5.0.0",
     "typeorm": "^0.3.17",
     "winston": "^3.10.0",
     "winston-daily-rotate-file": "^4.7.1"
