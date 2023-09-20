@@ -7,6 +7,7 @@ import {
 } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 import { JwtService } from '@nestjs/jwt';
+import { isEmpty } from 'class-validator';
 import { Request } from 'express';
 import { IS_PUBLIC_KEY, ROLES_KEY } from '../decorator';
 
@@ -26,15 +27,13 @@ export class JwtAuthGuard implements CanActivate {
 
     const request = context.switchToHttp().getRequest();
     const token = this.extractTokenFromHeader(request);
-    console.log(token);
 
     if (!token) {
       throw new UnauthorizedException();
     }
 
     try {
-      const payload = await this.jwtService.verifyAsync(token);
-      console.log(payload);
+      const payload = await this.jwtService.verify(token);
 
       // 💡 We're assigning the payload to the request object here
       // so that we can access it in our route handlers
@@ -44,15 +43,16 @@ export class JwtAuthGuard implements CanActivate {
       );
       request['user'] = payload;
       if (
-        !requiredRoles ||
+        isEmpty(requiredRoles) ||
         requiredRoles.some((role) => payload.roles?.includes(role))
       ) {
         return true;
       } else {
-        throw new ForbiddenException();
+        throw new ForbiddenException(`Need role ${requiredRoles.join(' or ')}`);
       }
-    } catch {
-      throw new UnauthorizedException();
+    } catch (error) {
+
+      throw new UnauthorizedException(error);
     }
   }
 
